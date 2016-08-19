@@ -30,7 +30,7 @@ Pull requests and bug reports are welcome
 ## Examples 
 
 #### Synchronous Backoff
-```
+```java
 // Initialize retry strategy to Backoff
 final EBRetryStrategy retryStrategy = new EBRetryStrategyBackoff.Builder()
                                         .setMaxElapsedTimeMillis(1000*60*5) // Limit on total time
@@ -81,7 +81,7 @@ try {
 ### Asynchronous backoff
 Retry mechanism supports asynchronous jobs.
 
-```
+```java
 // Initialize retry strategy to Backoff
 final EBRetryStrategy retryStrategy = new EBRetryStrategyBackoff.Builder()
                                         .setMaxElapsedTimeMillis(1000*60*5) // Limit on total time
