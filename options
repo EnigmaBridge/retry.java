@@ -1,0 +1,24 @@
+-classpath
+'/Users/dan/.m2/repository/org/json/json/20160212/json-20160212.jar'
+-encoding
+'UTF-8'
+-protected
+-sourcepath
+'/Users/dan/IdeaProjects/retry.java/src/main/java'
+-author
+-bottom
+'Copyright &#169; 2016. All rights reserved.'
+-charset
+'UTF-8'
+-d
+'/Users/dan/IdeaProjects/retry.java/target/site/apidocs'
+-docencoding
+'UTF-8'
+-doctitle
+'Retry mechanism 0.1.0 API'
+-linkoffline
+'http://docs.oracle.com/javase/6/docs/api' '/Users/dan/IdeaProjects/retry.java/target/javadoc-bundle-options'
+-use
+-version
+-windowtitle
+'Retry mechanism 0.1.0 API'
