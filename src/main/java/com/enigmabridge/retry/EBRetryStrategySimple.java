@@ -5,19 +5,19 @@ import org.json.JSONObject;
 
 /**
  * Simple retry strategy, with threshold, no waiting.
- *
+ * <p>
  * Created by dusanklinec on 21.07.16.
  */
 public class EBRetryStrategySimple implements EBRetryStrategy {
-    protected int maxAttempts;
-    protected int attempts = 0;
-
-    /** Indicates that no more retries should be made for use in {@link #getWaitMilli()}. */
-    static final long STOP = -1L;
-    static final long NOWAIT = 0L;
-
     public static final String NAME = "simple";
     protected static final String FIELD_MAX_ATTEMPTS = "maxAttempts";
+    /**
+     * Indicates that no more retries should be made for use in {@link #getWaitMilli()}.
+     */
+    static final long STOP = -1L;
+    static final long NOWAIT = 0L;
+    protected int maxAttempts;
+    protected int attempts = 0;
 
     public EBRetryStrategySimple(int maxAttempts) {
         this.maxAttempts = maxAttempts;
@@ -57,7 +57,7 @@ public class EBRetryStrategySimple implements EBRetryStrategy {
 
     @Override
     public JSONObject toJSON(JSONObject json) {
-        if (json == null){
+        if (json == null) {
             json = new JSONObject();
         }
 
@@ -66,11 +66,11 @@ public class EBRetryStrategySimple implements EBRetryStrategy {
     }
 
     protected void fromJSON(JSONObject json) throws JSONException {
-        if (json == null){
+        if (json == null) {
             return;
         }
 
-        if (json.has(FIELD_MAX_ATTEMPTS)){
+        if (json.has(FIELD_MAX_ATTEMPTS)) {
             maxAttempts = EBUtils.getAsInteger(json, FIELD_MAX_ATTEMPTS, 10);
         }
     }
