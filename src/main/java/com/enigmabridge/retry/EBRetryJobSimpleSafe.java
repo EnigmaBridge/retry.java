@@ -19,8 +19,8 @@ public abstract class EBRetryJobSimpleSafe<Result, Error> extends EBRetryJobSimp
     /**
      * Job overrides this main method. If uncaught Throwable is thrown in the job, it is considered as a fatal error of the job.
      *
-     * @param callback
-     * @throws Throwable
+     * @param callback EBCallback
+     * @throws Throwable any exception encountered during execution (not IOExceptoin)
      */
     public abstract void runAsyncNoException(EBCallback<Result, Error> callback) throws Throwable;
 }

@@ -10,13 +10,16 @@ package com.enigmabridge.retry;
 public interface EBRetryListener<Result, Error> {
     /**
      * Called by job on success.
-     * @param result
+     *
+     * @param result Result
+     * @param retry pair EBRetry of Result and Error types
      */
     void onSuccess(Result result, EBRetry<Result, Error> retry);
 
     /**
      * Called by job on fail.
-     * @param error
+     * @param error EBRetryJobError
+     * @param retry pair EBRetry of Result and Error types
      */
     void onFail(EBRetryJobError<Error> error, EBRetry<Result, Error> retry);
 }

@@ -16,6 +16,8 @@ public interface EBRetryJob<Result, Error> {
 
     /**
      * On retry signal to the job.
+     *
+     * @param retry EBRetry
      */
     void onRetry(EBRetry<Result, Error> retry);
 }

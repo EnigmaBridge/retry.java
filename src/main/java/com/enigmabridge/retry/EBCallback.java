@@ -8,13 +8,13 @@ package com.enigmabridge.retry;
 public interface EBCallback<Result, Error> {
     /**
      * Called by job on success.
-     * @param result
+     * @param result Result
      */
     void onSuccess(Result result);
 
     /**
      * Called by job on fail.
-     * @param error
+     * @param error EBRetryJobError
      * @param abort true if should terminate.
      */
     void onFail(EBRetryJobError<Error> error, boolean abort);

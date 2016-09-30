@@ -2,7 +2,7 @@
 
 [![Build Status][1]][2]
 
-Very simple retry mechanism with small dependency footprint.
+Very simple retry mechanism with small dependency footprint. Visit [http://enigmabridge.github.io/retry.java](http://enigmabridge.github.io/retry.java) for Javadoc documentation.
 
 ## Maven repository
 
@@ -126,3 +126,15 @@ ebRetry.addListener(new EBRetryListener<EBRawResponse, Throwable>() {
 // Or to cancel it or to skip current backoff waiting interval (runNow())
 final EBFuture<EBRawResponse, Throwable> future = ebRetry.runAsync();
 ```
+
+### Options to build [EBRetryStrategyBackoff.Builder](https://enigmabridge.github.io/retry.java/com/enigmabridge/retry/EBRetryStrategyBackoff.Builder.html) - quick reference
+
+ - `setMaxAttempts(int tries)` - how many times will be the EBRetryJob executed;
+ - `setMaxIntervalMillis(int milliseconds)` - maximum time for the job to be run - it will be interrupted when the time limit is reached;
+ - `setMaxElapsedTimeMillis(int milliseconds)` - the maximum value of a counter, when reached, nextBackoffMillis() will start returning BackOff.STOP;
+ - `setMultiplier(int multiplier)` - value to multiply the current interval with for each retry attempt;
+ - `setRandomizationFactor(double randomizationFactor)` - a factor of 0.5 results in a random period ranging between 50% below and 50% above the retry interval;
+ - `setJSON(org.json.JSONObject object)` - reads settings from JSON;
+ - `setInitialIntervalLimit(int initialIntervalLimit)` -  initial retry interval in milliseconds.
+
+

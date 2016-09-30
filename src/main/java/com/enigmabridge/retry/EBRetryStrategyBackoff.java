@@ -207,6 +207,9 @@ public class EBRetryStrategyBackoff implements BackOff, EBRetryStrategy {
      * <p>
      * Subclasses may override if a different algorithm is required.
      * </p>
+     *
+     * @return long
+     * @throws IOException IO exceptions only (beyond software control)
      */
     public long nextBackOffMillis() throws IOException {
         return nextBackOffMillis(true);
@@ -230,6 +233,11 @@ public class EBRetryStrategyBackoff implements BackOff, EBRetryStrategy {
     /**
      * Returns a random value from the interval [randomizationFactor * currentInterval,
      * randomizationFactor * currentInterval].
+     *
+     * @param randomizationFactor double
+     * @param random double
+     * @param currentIntervalMillis int
+     * @return
      */
     static int getRandomValueFromInterval(
             double randomizationFactor, double random, int currentIntervalMillis) {
@@ -243,7 +251,10 @@ public class EBRetryStrategyBackoff implements BackOff, EBRetryStrategy {
         return randomValue;
     }
 
-    /** Returns the initial retry interval in milliseconds. */
+    /** Returns the initial retry interval in milliseconds.
+     *
+     * @return int
+     */
     public final int getInitialIntervalMillis() {
         return initialIntervalMillis;
     }
@@ -255,6 +266,8 @@ public class EBRetryStrategyBackoff implements BackOff, EBRetryStrategy {
      * A randomization factor of 0.5 results in a random period ranging between 50% below and 50%
      * above the retry interval.
      * </p>
+     *
+     * @return double
      */
     public final double getRandomizationFactor() {
         return randomizationFactor;
@@ -262,6 +275,8 @@ public class EBRetryStrategyBackoff implements BackOff, EBRetryStrategy {
 
     /**
      * Returns the current retry interval in milliseconds.
+     *
+     * @return int
      */
     public final int getCurrentIntervalMillis() {
         return currentIntervalMillis;
@@ -269,6 +284,8 @@ public class EBRetryStrategyBackoff implements BackOff, EBRetryStrategy {
 
     /**
      * Returns the value to multiply the current interval with for each retry attempt.
+     *
+     * @return double
      */
     public final double getMultiplier() {
         return multiplier;
@@ -277,11 +294,18 @@ public class EBRetryStrategyBackoff implements BackOff, EBRetryStrategy {
     /**
      * Returns the maximum value of the back off period in milliseconds. Once the current interval
      * reaches this value it stops increasing.
+     *
+     * @return int
      */
     public final int getMaxIntervalMillis() {
         return maxIntervalMillis;
     }
 
+    /**
+     * Return the maximum number of tries that will be attempted for the EBRetryJob instance.
+     *
+     * @return int
+     */
     public final int getMaxAttempts(){
         return maxAttempts;
     }
@@ -294,6 +318,8 @@ public class EBRetryStrategyBackoff implements BackOff, EBRetryStrategy {
      * max_elapsed_time then the method {@link #nextBackOffMillis()} starts returning
      * {@link BackOff#STOP}. The elapsed time can be reset by calling {@link #reset()}.
      * </p>
+     *
+     * @return int
      */
     public final int getMaxElapsedTimeMillis() {
         return maxElapsedTimeMillis;
@@ -306,6 +332,8 @@ public class EBRetryStrategyBackoff implements BackOff, EBRetryStrategy {
      * <p>
      * The elapsed time is computed using {@link System#nanoTime()}.
      * </p>
+     *
+     * @return long
      */
     public final long getElapsedTimeMillis() {
         return (System.nanoTime() - startTimeNanos) / 1000000;
@@ -459,7 +487,10 @@ public class EBRetryStrategyBackoff implements BackOff, EBRetryStrategy {
         public Builder() {
         }
 
-        /** Builds a new instance of {@link EBRetryStrategyBackoff}. */
+        /** Builds a new instance of {@link EBRetryStrategyBackoff}.
+         *
+         * @return new instance of EBRetryStrategyBackoff
+         */
         public EBRetryStrategyBackoff build() {
             return new EBRetryStrategyBackoff(this);
         }
@@ -467,6 +498,8 @@ public class EBRetryStrategyBackoff implements BackOff, EBRetryStrategy {
         /**
          * Returns the initial retry interval in milliseconds. The default value is
          * {@link #DEFAULT_INITIAL_INTERVAL_MILLIS}.
+         *
+         * @return int
          */
         public final int getInitialIntervalMillis() {
             return initialIntervalMillis;
@@ -480,6 +513,9 @@ public class EBRetryStrategyBackoff implements BackOff, EBRetryStrategy {
          * Overriding is only supported for the purpose of calling the super implementation and changing
          * the return type, but nothing else.
          * </p>
+         *
+         * @param initialIntervalMillis int
+         * @return new instance of Builder
          */
         public Builder setInitialIntervalMillis(int initialIntervalMillis) {
             this.initialIntervalMillis = initialIntervalMillis;
@@ -499,6 +535,8 @@ public class EBRetryStrategyBackoff implements BackOff, EBRetryStrategy {
          * Overriding is only supported for the purpose of calling the super implementation and changing
          * the return type, but nothing else.
          * </p>
+         *
+         * @return double
          */
         public final double getRandomizationFactor() {
             return randomizationFactor;
@@ -518,6 +556,9 @@ public class EBRetryStrategyBackoff implements BackOff, EBRetryStrategy {
          * Overriding is only supported for the purpose of calling the super implementation and changing
          * the return type, but nothing else.
          * </p>
+         *
+         * @param randomizationFactor double
+         * @return new instance of Builder
          */
         public Builder setRandomizationFactor(double randomizationFactor) {
             this.randomizationFactor = randomizationFactor;
@@ -527,6 +568,8 @@ public class EBRetryStrategyBackoff implements BackOff, EBRetryStrategy {
         /**
          * Returns the value to multiply the current interval with for each retry attempt. The default
          * value is {@link #DEFAULT_MULTIPLIER}.
+         *
+         * @return double
          */
         public final double getMultiplier() {
             return multiplier;
@@ -540,6 +583,9 @@ public class EBRetryStrategyBackoff implements BackOff, EBRetryStrategy {
          * Overriding is only supported for the purpose of calling the super implementation and changing
          * the return type, but nothing else.
          * </p>
+         *
+         * @param multiplier double
+         * @return new instance of Builder
          */
         public Builder setMultiplier(double multiplier) {
             this.multiplier = multiplier;
@@ -550,6 +596,8 @@ public class EBRetryStrategyBackoff implements BackOff, EBRetryStrategy {
          * Returns the maximum value of the back off period in milliseconds. Once the current interval
          * reaches this value it stops increasing. The default value is
          * {@link #DEFAULT_MAX_INTERVAL_MILLIS}. Must be {@code >= initialInterval}.
+         *
+         * @return int
          */
         public final int getMaxIntervalMillis() {
             return maxIntervalMillis;
@@ -564,6 +612,9 @@ public class EBRetryStrategyBackoff implements BackOff, EBRetryStrategy {
          * Overriding is only supported for the purpose of calling the super implementation and changing
          * the return type, but nothing else.
          * </p>
+         *
+         * @param maxIntervalMillis int
+         * @return new Builder instance
          */
         public Builder setMaxIntervalMillis(int maxIntervalMillis) {
             this.maxIntervalMillis = maxIntervalMillis;
@@ -579,6 +630,7 @@ public class EBRetryStrategyBackoff implements BackOff, EBRetryStrategy {
          * max_elapsed_time then the method {@link #nextBackOffMillis()} starts returning
          * {@link BackOff#STOP}. The elapsed time can be reset by calling {@link #reset()}.
          * </p>
+         * @return int
          */
         public final int getMaxElapsedTimeMillis() {
             return maxElapsedTimeMillis;
@@ -598,6 +650,8 @@ public class EBRetryStrategyBackoff implements BackOff, EBRetryStrategy {
          * Overriding is only supported for the purpose of calling the super implementation and changing
          * the return type, but nothing else.
          * </p>
+         * @param maxElapsedTimeMillis int
+         * @return new Builder instance
          */
         public Builder setMaxElapsedTimeMillis(int maxElapsedTimeMillis) {
             this.maxElapsedTimeMillis = maxElapsedTimeMillis;

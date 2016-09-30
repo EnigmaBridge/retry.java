@@ -28,7 +28,10 @@ public interface BackOff {
     /** Indicates that no more retries should be made for use in {@link #nextBackOffMillis()}. */
     static final long STOP = -1L;
 
-    /** Reset to initial state. */
+    /**
+     * Reset to initial state.
+     * @throws IOException any IO exception (beyond software control)
+     */
     void reset() throws IOException;
 
     /**
@@ -47,6 +50,9 @@ public interface BackOff {
      // sleep for backOffMillis milliseconds and retry operation
      }
      * </pre>
+     *
+     * @return long
+     * @throws IOException any IO exception (beyond software control)
      */
     long nextBackOffMillis() throws IOException;
 
